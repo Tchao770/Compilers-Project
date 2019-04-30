@@ -41,7 +41,7 @@ string converter(string line)
         else if(line[i] == '(' && line[i + 1] == '*')   //increment i until asterisk and parenthesis
             while(line[i] != ')')
             {
-                cout << "comment removal";
+                //cout << "comment removal";
                 i++;
             }
         else
@@ -63,8 +63,11 @@ int main()
         while(!doc.eof())
         {
             getline(doc, line);
-            comment = (line[0] == '(' && line[1] == '*') ? true : false;
+
+            if(line.empty())
+                getline(doc, line);
             
+            comment = (line[0] == '(' && line[1] == '*') ? true : false;
             if(comment)
             {
                 while(line[line.length() - 1] != ')')
@@ -74,8 +77,6 @@ int main()
                 }
                 comment = false;
             }
-            else if(line == "\n")
-                getline(doc,line);
             else
                 output << converter(line) << endl;
         }
