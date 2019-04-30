@@ -19,6 +19,7 @@ program to check the grammar of each statement.
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 string document(string line)
@@ -33,8 +34,16 @@ string converter(string line)
     {
         if(line[i] == '\t')
             i++;
+        else if(line[i] == '\n')
+            i++;
         else if(line[i] == ' ' && line[i + 1] == ' ')
-            cout << "oof";
+            i++;
+        else if(line[i] == '(' && line[i + 1] == '*')   //increment i until asterisk and parenthesis
+            while(line[i] != ')')
+            {
+                cout << "comment removal";
+                i++;
+            }
         else
             conv += line[i];
     }
@@ -54,16 +63,19 @@ int main()
         while(!doc.eof())
         {
             getline(doc, line);
-            comment = (line[0] == '(') ? true : false;
-            if(line[0] == '(' || comment)
+            comment = (line[0] == '(' && line[1] == '*') ? true : false;
+            
+            if(comment)
             {
-                output << document(line) << endl;;
-            }
-            else if(line[line.length() - 1] == ')' && comment)
-            {
+                while(line[line.length() - 1] != ')')
+                {
+                    getline(doc, line);
+                    output << document(line);
+                }
                 comment = false;
-                output << document(line) << endl;
             }
+            else if(line == "\n")
+                getline(doc,line);
             else
                 output << converter(line) << endl;
         }
