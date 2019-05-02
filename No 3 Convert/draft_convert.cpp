@@ -25,22 +25,24 @@ int main()
 		{
 			
 			getline(doc, line);
-			if (line[2] == 'O' )
-				getline(doc, line);
-				if (line[0] == 'V')
-					getline(doc, line);
-					output <<  line << endl;
-					getline(doc, line);
-					if(line[0] == 'B')
-						getline(doc, line);
-						output << line << endl;
-						if (line[0] == 'P')
-							output << "cout << "  << line <<   " << " << line << endl;
-							getline(doc, line);
-							if (line[0] == 'E')
-								getline(doc, line);
-							output << line << endl;
-
+			while (getline(doc, line))
+			{
+				
+				if (line == "PROGRAM" || line == "VAR" || line == "BEGIN" || line == "END.")
+				{
+					output << "";
+				}
+				else if (line.compare(line.size()-8,7,"INTEGER") == 0)
+				{
+					output << line.substr(0, line.size() - 10) << ";" << endl;
+				}
+				else if (line.compare(0, 5, "PRINT") == 0)
+				{
+					
+				}
+				else
+					output << line << endl;
+			}
 
 			
 		}
