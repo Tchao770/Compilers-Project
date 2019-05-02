@@ -6,6 +6,7 @@ using namespace std;
 
 // This is the code what I have so far 
 // It’s just a draft, not complete yet 
+// you guys can run and check the ouput of ab13.cpp file
 
 int main()
 {
@@ -38,11 +39,15 @@ int main()
 				}
 				else if (line.compare(0, 5, "PRINT") == 0)
 				{
-					
+					if (line.compare(6, 1, "\"") == 0)
+						output << "cout << "<< line.substr(6, 6) << " << "<< line.substr(line.size()-5,3) << ";" << endl;
+					else
+						output << "cout << "<< line.substr(line.size()-5,2) << ";" << endl;
 				}
 				else
 					output << line << endl;
 			}
+		
 
 			
 		}
