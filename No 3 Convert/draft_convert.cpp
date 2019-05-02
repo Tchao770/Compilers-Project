@@ -13,7 +13,7 @@ int main()
 	string line;
 	ifstream doc;
 	ofstream output;
-	doc.open("output.txt");
+	doc.open("draft_output.txt"); // translate draft_ouput.txt file
 	output.open("abc13.cpp");
 	if (doc.is_open() && output.is_open())
 	{
