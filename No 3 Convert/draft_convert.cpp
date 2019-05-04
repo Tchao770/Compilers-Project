@@ -6,13 +6,14 @@ using namespace std;
 
 // This is the code what I have so far 
 // It’s just a draft, not complete yet 
+// you guys can run and check the ouput of ab13.cpp file
 
 int main()
 {
 	string line;
 	ifstream doc;
 	ofstream output;
-	doc.open("output.txt");
+	doc.open("draft_output.txt"); // translate draft_ouput.txt file
 	output.open("abc13.cpp");
 	if (doc.is_open() && output.is_open())
 	{
@@ -25,22 +26,28 @@ int main()
 		{
 			
 			getline(doc, line);
-			if (line[2] == 'O' )
-				getline(doc, line);
-				if (line[0] == 'V')
-					getline(doc, line);
-					output <<  line << endl;
-					getline(doc, line);
-					if(line[0] == 'B')
-						getline(doc, line);
-						output << line << endl;
-						if (line[0] == 'P')
-							output << "cout << "  << line <<   " << " << line << endl;
-							getline(doc, line);
-							if (line[0] == 'E')
-								getline(doc, line);
-							output << line << endl;
-
+			while (getline(doc, line))
+			{
+				
+				if (line == "PROGRAM" || line == "VAR" || line == "BEGIN" || line == "END.")
+				{
+					output << "";
+				}
+				else if (line.compare(line.size()-8,7,"INTEGER") == 0)
+				{
+					output << line.substr(0, line.size() - 10) << ";" << endl;
+				}
+				else if (line.compare(0, 5, "PRINT") == 0)
+				{
+					if (line.compare(6, 1, "\"") == 0)
+						output << "cout << "<< line.substr(6, 6) << " << "<< line.substr(line.size()-5,3) << ";" << endl;
+					else
+						output << "cout << "<< line.substr(line.size()-5,2) << ";" << endl;
+				}
+				else
+					output << line << endl;
+			}
+		
 
 			
 		}

@@ -2,15 +2,13 @@
 using namespace std;
 int main()
 {
-int ab5, cb, be, eb : INTEGER;
+int ab5, cb, be, eb ;
 ab5 = 5;
 cb = 10;
-PRINT(‘ab5=’, ab5);
-cb = cb + ab5;
-PRINT( cb );
+cout << "ab5=" << ab5;
+eb = cb + ab5;
+cout << eb;
 be = 2 * ab5 + eb;
-PRINT( be );
-cout << PRINT( be ); << PRINT( be );
-END.
+cout << be;
 return 0;
 }
