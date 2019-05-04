@@ -22,30 +22,64 @@ program to check the grammar of each statement.
 #include <algorithm>
 using namespace std;
 
+// Function when beginning of line is a comment
 string document(string line)
 {
     return "";
 }
+
+// Handles all cases of the string including: extra spaces
+// and proper spacing between punctuations
 string converter(string line)
 {
+    bool isPRINT = true;
     string conv;
     int n = line.length();
     for(int i = 0; i < n; i++)
     {
+        char n = line[i];
         if(line[i] == '\t')
             i++;
         else if(line[i] == '\n')
             i++;
-        else if(line[i] == ' ' && line[i + 1] == ' ')
-            i++;
+        else if(line[i] == ' ')
+        {
+            if(line[i + 1] == ' ')
+                i++;
+            else if(i <= 1 && line[i - 1] == ' ')
+                i++;
+        }
         else if(line[i] == '(' && line[i + 1] == '*')   //increment i until asterisk and parenthesis
             while(line[i] != ')')
             {
                 //cout << "comment removal";
                 i++;
             }
+        else if(line[i] == ',')
+        {
+            if(line[i + 1] == ' ')
+                conv += ", ";
+            else if(line[i - 1] == ' ')
+                conv += " ,"; 
+        }
+        else if(n == '=' || n == ':' || n == '+' || n == '/' || n == '-' || n == '*') // && substring comparison for PRINT
+        {
+                 if(line[i + 1] == ' ' && conv[i - 1] == ' ')
+                conv += line[i];
+            else if(line[i + 1] != ' ' && conv[i - 1] == ' ')
+                conv = conv + line[i] + ' ';
+            else if(line[i + 1] == ' ' && conv[i - 1] != ' ')
+                conv = conv + ' ' + line[i];
+            else
+                conv = conv + ' ' + line[i] + ' ';
+            isPRINT = true;
+        }
         else
+        {
+            if(line[i] == 'P')
+                isPRINT = false;
             conv += line[i];
+        }
     }
     return conv;
 }
@@ -63,7 +97,6 @@ int main()
         while(!doc.eof())
         {
             getline(doc, line);
-
             if(line.empty())
                 getline(doc, line);
             
