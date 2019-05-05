@@ -1,21 +1,4 @@
-/*
-Remove all documentation, blank lines, and extra spaces from the program.  
-The program should look like the following.  You are going to use this 
-program to check the grammar of each statement.
-    PROGRAM aba13;
-    VAR
-    ab5, cb, be, eb : INTEGER;
-    BEGIN
-    ab5 = 5;
-    cb = 10;
-    PRINT(‘ab5=’, ab5);
-    cb = cb + ab5;
-    PRINT( cb );
-    be = 2 * ab5 + eb;
-    PRINT( be );
-    END.
-*/
-
+// Tommy Chao
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -32,54 +15,53 @@ string document(string line)
 // and proper spacing between punctuations
 string converter(string line)
 {
-    bool isPRINT = true;
     string conv;
-    int n = line.length();
-    for(int i = 0; i < n; i++)
+    int m = line.length();
+    for(int i = 0; i < m; i++)
     {
         char n = line[i];
+
+        // Remove tab
         if(line[i] == '\t')
             i++;
+        
+        // Remove newlines
         else if(line[i] == '\n')
             i++;
+        
+        // Removes all spaces unless it is between two alphabets
         else if(line[i] == ' ')
         {
-            if(line[i + 1] == ' ')
+            if(conv[i - 1] == ' ' || line[i + 1] == ' ')
                 i++;
-            else if(i <= 1 && line[i - 1] == ' ')
+            else if(isalpha(line[i - 1]) && isalpha(line[i + 1]))
+                conv += line[i];
+        }
+
+        // Removes comments by incrementing "i" until asterisk and parenthesis
+        else if(line[i] == '(' && line[i + 1] == '*')
+        {
+            while(line[i] != ')')
                 i++;
         }
-        else if(line[i] == '(' && line[i + 1] == '*')   //increment i until asterisk and parenthesis
-            while(line[i] != ')')
-            {
-                //cout << "comment removal";
-                i++;
-            }
+
+        // Properly spaces comma
         else if(line[i] == ',')
         {
             if(line[i + 1] == ' ')
                 conv += ", ";
+            
             else if(line[i - 1] == ' ')
-                conv += " ,"; 
+                conv += ", ";
         }
-        else if(n == '=' || n == ':' || n == '+' || n == '/' || n == '-' || n == '*') // && substring comparison for PRINT
-        {
-                 if(line[i + 1] == ' ' && conv[i - 1] == ' ')
-                conv += line[i];
-            else if(line[i + 1] != ' ' && conv[i - 1] == ' ')
-                conv = conv + line[i] + ' ';
-            else if(line[i + 1] == ' ' && conv[i - 1] != ' ')
-                conv = conv + ' ' + line[i];
-            else
-                conv = conv + ' ' + line[i] + ' ';
-            isPRINT = true;
-        }
+        
+        // Add appropriate spaces between operators/punctuations
+        else if(n == '=' || n == ':' || n == '+' || n == '/' || n == '-' || n == '*')
+            conv = conv + ' ' + line[i] + ' ';
+        
+        // Append to string to be returned
         else
-        {
-            if(line[i] == 'P')
-                isPRINT = false;
             conv += line[i];
-        }
     }
     return conv;
 }
