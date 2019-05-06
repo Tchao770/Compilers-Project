@@ -166,6 +166,7 @@ void statList(vector<string> const &input, vector<string>const &variable)
 							{
 								cout << ", is missing" << endl;
 							}
+
 							j = i;
 
 
@@ -219,8 +220,135 @@ void statList(vector<string> const &input, vector<string>const &variable)
 		//Checking if it is an assign statement
 		else
 		{
-			//testing
-			cout << "This is an assign test" << endl;
+
+			for (int k = 0; k < str.length(); k++)
+			{
+				//check if variable exists
+				if (str[k] == 'a' || str[k] == 'b' || str[k] == 'c' || str[k] == 'd' || str[k] == 'e' || str[k] == 'f' || str[k] == '0' || str[k] == '1' || str[k] == '2' || str[k] == '3' || str[k] == '4' || str[k] == '5' || str[k] == '6' || str[k] == '7' || str[k] == '8' || str[k] == '9')
+				{
+					createVar.push_back(str[k]);
+
+					if (str[k + 1] == ' ' || str[k + 1] == ';')
+					{
+						k++;
+						for (int compare = 0; compare < variable.size(); compare++)
+						{
+							if (variable.at(compare) == createVar)
+							{
+								createVar = "";
+								k++;
+								break;
+							}
+							else if (compare == variable.size() - 1)
+							{
+								createVar = "";
+								cout << "IDENTIFIER NOT DEFINED" << endl;
+
+							}
+						}
+						//check for assignment (=)
+						if (str[k] != '=')
+						{
+							cout << "= is missing" << endl;
+							break;
+						}
+						else
+						{
+							k++; k++;
+							for (int l = k; l < str.length(); l++)
+							{
+								//check if variable exists
+								if (str[l] == 'a' || str[l] == 'b' || str[l] == 'c' || str[l] == 'd' || str[l] == 'e' || str[l] == 'f' || str[l] == '0' || str[l] == '1' || str[l] == '2' || str[l] == '3' || str[l] == '4' || str[l] == '5' || str[l] == '6' || str[l] == '7' || str[l] == '8' || str[l] == '9')
+								{
+									createVar.push_back(str[l]);
+									if (str[l + 1] == ' ' || str[l + 1] == ';')
+									{
+										for (int compare = 0; compare < variable.size(); compare++)
+										{
+											if (variable.at(compare) == createVar)
+											{
+												createVar = "";
+
+												l++;
+												if (str[l] == ';')
+												{
+													k = l;
+													break;
+												}
+												l++;
+
+												if (str[l] == '*' || str[l] == '+' || str[l] == '/' || str[l] == '-')
+												{
+													l++;
+													k = l;
+													break;
+												}
+											}
+											//if it isn't a variable then check if its a digit
+											else if (isdigit(createVar[0]))
+											{
+												createVar = "";
+												l++;
+												if (str[l] == ';')
+												{
+													k = l;
+													break;
+												}
+												l++;
+
+												if (str[l] == '*' || str[l] == '+' || str[l] == '/' || str[l] == '-')
+												{
+													l++;
+													k = l;
+													break;
+												}
+
+											}
+											else if (compare == variable.size() - 1)
+											{
+												//checks after an identifier that has not been defined
+												createVar = "";
+												l++;
+												cout << "IDENTIFIER NOT DEFINED" << endl;
+												l++;
+												if (str[l] == ';')
+												{
+													k = l;
+													break;
+												}
+												if (str[l] == '*' || str[l] == '+' || str[l] == '/' || str[l] == '-')
+												{
+													l++;
+													k = l;
+													break;
+												}
+												k = l;
+												break;
+											}
+										}
+									}
+								}
+								else if (str[l] == ' ' && createVar != "" && str[l] != ';')
+								{
+									cout << "ERROR" << endl;
+								}
+								if (l == str.size() - 1)
+								{
+									if (str[l] != ';')
+									{
+										cout << "; is missing" << endl;
+									}
+								}
+								//
+							}
+						}
+					}
+				}
+				else
+				{
+					cout << "IDENTIFIER NOT DEFINED" << endl;
+				}
+			}
 		}
 	}
 }
