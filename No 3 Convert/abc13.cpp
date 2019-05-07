@@ -2,13 +2,14 @@
 using namespace std;
 int main()
 {
-int ab5, cb, be, eb ;
+int ab5, cb, be, eb;
 ab5 = 5;
 cb = 10;
-cout << "ab5=" << ab5;
+cout << "ab5 = " << ab5 << endl;
 eb = cb + ab5;
-cout << eb;
+cout << eb << endl;
 be = 2 * ab5 + eb;
-cout << be;
+cout << be << endl;
 return 0;
 }
+
