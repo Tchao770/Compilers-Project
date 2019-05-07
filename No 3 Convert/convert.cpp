@@ -13,7 +13,7 @@ struct t_variable
     list<string> variables;
 };
 
-// Parses line by spaces and exclude (') and (")
+// Parses line by spaces, exclude (,) and (;), returns vector containing string
 vector<string> separate(string line)
 {
     int state = 0;
@@ -73,7 +73,7 @@ string buildVar(t_variable item)
     return code;
 }
 
-// Print function that constructs appropriate cout statement and quotations
+// Create code string for print statement
 string buildPrint(vector<string> sep)
 {
     string code = "cout << ";
@@ -112,6 +112,8 @@ int main()
 
         getline(doc, line);
         sep = separate(line);
+        
+        // sep will contain the PROGRAM file name, create file with that name
         fileName = sep[1] + ".cpp";
         output.open(fileName);
 
@@ -144,16 +146,17 @@ int main()
                         output << buildVar(format(sep, item)) << endl;
                     }
 
-                    // Do nothing if the  line begin with those word
+                    // Do nothing
                     else if (line == "BEGIN")
                         output << "";
 
-                    //If the line begin with "Print"
+                    // If the line contains "PRINT"
                     else if (sep[0].find("PRINT") != string::npos)
                     {
                         output << buildPrint(sep) << endl;
                     }
-
+                       
+                    // If line conclude with "END."
                     else if (line == "END.")
                     {
                         output << "return 0;" << endl;
