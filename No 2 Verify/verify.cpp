@@ -13,7 +13,7 @@ using namespace std;
 <stat - list> -> <stat>; | <stat>; <stat - list>
 <stat>      -> <print> | <assign>
 <print>     -> PRINT(<output>)
-<output>    ->[ìstringî, } <id>
+<output>    ->[‚Äústring‚Äù, } <id>
 <assign>    -> <id> = <expr>
 
 <expr>      -> <term> | <expr> +<term> | <expr> -<term>
@@ -21,7 +21,7 @@ using namespace std;
 <factor>    -> <id> | <number> | <(<expr>)
 <number>    -> <digit>{<digit>}
 <type>      -> INTEGER
-<digit>     -> 0 | 1 | 2 | Ö | 9
+<digit>     -> 0 | 1 | 2 | ‚Ä¶ | 9
 <letter>    -> a | b | c | d | e | f
 */
 
@@ -59,7 +59,7 @@ void pname(vector<string> const &input)
 {
 	string str = input.at(0);
 
-	//starts after PROGRAM. check if every number/letter is vaild -> 0 | 1 | 2 | Ö | 9 | a | b | c | d | e | f
+	//starts after PROGRAM. check if every number/letter is vaild -> 0 | 1 | 2 | ‚Ä¶ | 9 | a | b | c | d | e | f
 	for (int i = 8; i < str.length() - 1; i++) {
 		if (str[i] == 'a' || str[i] == 'b' || str[i] == 'c' || str[i] == 'd' || str[i] == 'e' || str[i] == 'f' || str[i] == '0' || str[i] == '1' || str[i] == '2' || str[i] == '3' || str[i] == '4' || str[i] == '5' || str[i] == '6' || str[i] == '7' || str[i] == '8' || str[i] == '9')
 		{
@@ -86,7 +86,7 @@ void decList(vector<string> const &input, vector<string>* variable)
 	string str = input.at(2);
 	string createVar = "";
 
-	//starts after PROGRAM. check if every number/letter is vaild -> 0 | 1 | 2 | Ö | 9 | a | b | c | d | e | f
+	//starts after PROGRAM. check if every number/letter is vaild -> 0 | 1 | 2 | ‚Ä¶ | 9 | a | b | c | d | e | f
 	for (int i = 0; i < str.length() - 1; i++) {
 		if (str[i] == 'a' || str[i] == 'b' || str[i] == 'c' || str[i] == 'd' || str[i] == 'e' || str[i] == 'f' || str[i] == '0' || str[i] == '1' || str[i] == '2' || str[i] == '3' || str[i] == '4' || str[i] == '5' || str[i] == '6' || str[i] == '7' || str[i] == '8' || str[i] == '9')
 		{
@@ -400,7 +400,7 @@ void checkEND(vector<string> const &input)
 int main()
 {
 	ifstream input;
-	input.open("output.txt");
+	input.open("input.txt");
 	//create a vector to hold output file from Part 1
 	vector<string> programFile;
 	vector<string> holdVariables;
