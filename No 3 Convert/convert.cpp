@@ -6,14 +6,14 @@
 #include <list>
 using namespace std;
 
-// Struct to store the type and if there are multiple variable declarations
+// Struct to store the type and multiple variable declarations
 struct t_variable
 {
     string type;
     list<string> variables;
 };
 
-// Parses line by spaces, exclude (,) and (;), returns vector containing string
+// Parses line by spaces and exclude (,) and (;)
 vector<string> separate(string line)
 {
     int state = 0;
@@ -73,7 +73,7 @@ string buildVar(t_variable item)
     return code;
 }
 
-// Create code string for print statement
+// Print function that constructs appropriate cout statement and quotations
 string buildPrint(vector<string> sep)
 {
     string code = "cout << ";
@@ -81,7 +81,8 @@ string buildPrint(vector<string> sep)
     for(int i = 1; i < sep.size(); i++)
     {
         string compare = sep[i];
-        
+
+        // Changes (') to (") and append the string + (")
         if(compare[0] == '\'')
         {
             sep[i][0] = '"';
@@ -109,11 +110,10 @@ int main()
     if (doc.is_open())
     {
         string fileName;
-
         getline(doc, line);
         sep = separate(line);
         
-        // sep will contain the PROGRAM file name, create file with that name
+        // Whatever is followed by "PROGRAM", name the file that
         fileName = sep[1] + ".cpp";
         output.open(fileName);
 
@@ -132,39 +132,36 @@ int main()
                 while (getline(doc, line))
                 {
                     sep = separate(line);
-                    /*
+                    
+                    // Print values of vector for debugging
                     for (auto const &c : sep)
                         std::cout << c << " | ";
                     cout << endl;
-                    */
 
                     // If line is VAR, read next line
                     if (line == "VAR")
                     {
                         getline(doc, line);
                         sep = separate(line);
-                        output << buildVar(format(sep, item)) << endl;
+                        output << '\t' << buildVar(format(sep, item)) << endl;
                     }
 
-                    // Do nothing
+                    // Do nothing if the  line begin with those word
                     else if (line == "BEGIN")
                         output << "";
 
-                    // If the line contains "PRINT"
+                    //If the line begin with "Print"
                     else if (sep[0].find("PRINT") != string::npos)
-                    {
-                        output << buildPrint(sep) << endl;
-                    }
-                       
-                    // If line conclude with "END."
+                        output << '\t' << buildPrint(sep) << endl;
+
                     else if (line == "END.")
                     {
-                        output << "return 0;" << endl;
+                        output << "\treturn 0;" << endl;
                         output << "}" << endl;
                     }
 
                     else
-                        output << line << endl;
+                        output << '\t' << line << endl;
                 }
             }
             doc.close();
