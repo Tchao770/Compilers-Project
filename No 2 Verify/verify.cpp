@@ -39,21 +39,21 @@ void start(vector<string> const &input)
 	string str = input.at(0);
 
 	if (str[0] != 'P')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[1] != 'R')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[2] != 'O')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[3] != 'G')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[4] != 'R')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[5] != 'A')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[6] != 'M')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 	else if (str[7] != ' ')
-		cout << "PROGRAM is expected" << endl;
+		cout << "line 1: PROGRAM is expected" << endl;
 }
 void pname(vector<string> const &input)
 {
@@ -65,20 +65,20 @@ void pname(vector<string> const &input)
 		{
 		}
 		else
-			cout << "UNKNOWN IDENTIFIER" << endl;
+			cout << "line 1: UNKNOWN IDENTIFIER" << endl;
 	}
 	//checks if the end of the string is a ';'
 	if (str[str.length() - 1] == ';')
 	{
 	}
-	else cout << "; is missing" << endl;
+	else cout << "line 1: ';' is missing" << endl;
 }
 void var(vector<string> const &input)
 {
 	//Checks if VAR exists or is spelled wrong
 	string str = input.at(1);
 	if (str != "VAR")
-		cout << "VAR is expected" << endl;
+		cout << "line 2: VAR is expected" << endl;
 }
 
 void decList(vector<string> const &input, vector<string>* variable)
@@ -107,30 +107,50 @@ void decList(vector<string> const &input, vector<string>* variable)
 			i++;
 			if (str[i] != ':')
 			{
-				cout << ": is missing"; break;
+				cout << "line 3: ':' is missing"; break;
 			}
 			i++; i++;
 			if (str[i] != 'I')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'N')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'T')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'E')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'G')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'E')
-				cout << "not accepted" << endl; i++;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 			if (str[i] != 'R')
-				cout << "not accepted" << endl; i++;
-			if (str[i] != ';')
-				cout << "; is missing" << endl;
-			break;
+			{
+				cout << "line 3: INTEGER is expected" << endl;
+				break;
+			} i++;
 		}
 		else
-			cout << "UNKNOWN IDENTIFIER" << endl;
+			cout << "line 3: UNKNOWN IDENTIFIER" << endl;
 	}
+	if (str[str.length() - 1] != ';')
+		cout << "line 3: ';' is missing" << endl;
 
 }
 
@@ -139,18 +159,22 @@ void checkBEGIN(vector<string> const &input)
 	//Checks if BEGIN exists or is spelled wrong
 	string str = input.at(3);
 	if (str != "BEGIN")
-		cout << "BEGIN is expected" << endl;
+		cout << "line 4: BEGIN is expected" << endl;
 }
 void statList(vector<string> const &input, vector<string>const &variable)
 {
 	string createVar = "";
-	for (int i = 4; i < input.size() - 1; i++)
+	for (int ch = 4; ch < input.size() - 1; ch++)
 	{
-		string str = input.at(i);
+		string str = input.at(ch);
 		//First check if its a PRINT function
-		if (str[0] == 'P' && str[1] == 'R'  && str[2] == 'I' && str[3] == 'N' && str[4] == 'T' && str[5] == '(')
+		if (str[0] == 'P' && str[1] == 'R'  && str[2] == 'I' && str[3] == 'N' && str[4] == 'T')
 		{
 			//start checking after PRINT
+			if (str[5] != '(')
+			{
+				cout << "line " << ch + 1 << ": '(' is missing" << endl;
+			}
 			for (int j = 6; j < str.size(); j++)
 			{
 
@@ -164,22 +188,26 @@ void statList(vector<string> const &input, vector<string>const &variable)
 							i++;
 							if (str[i] != ',')
 							{
-								cout << ", is missing" << endl;
+								cout << "line " << ch + 1 << ": ',' is missing" << endl;
 							}
 
 							j = i;
+							break;
 
-
+						}
+						else if (i == str.size() - 1 && str[i - 1] != '\'')
+						{
+							cout << "line " << ch + 1 << ": ' is missing" << endl;
+							j = i;
 						}
 
 					}
-
 				}
+
 				//Checking if variable was defined
 				if (str[j] == 'a' || str[j] == 'b' || str[j] == 'c' || str[j] == 'd' || str[j] == 'e' || str[j] == 'f' || str[j] == '0' || str[j] == '1' || str[j] == '2' || str[j] == '3' || str[j] == '4' || str[j] == '5' || str[j] == '6' || str[j] == '7' || str[j] == '8' || str[j] == '9')
 				{
 					createVar.push_back(str[j]);
-
 					if (str[j + 1] == ' ' || str[j + 1] == ')' || str[j + 1] == ',')
 					{
 
@@ -193,7 +221,7 @@ void statList(vector<string> const &input, vector<string>const &variable)
 							else if (compare == variable.size() - 1)
 							{
 								createVar = "";
-								cout << "IDENTIFIER NOT DEFINED" << endl;
+								cout << "line " << ch + 1 << ": IDENTIFIER NOT DEFINED" << endl;
 
 							}
 						}
@@ -204,21 +232,21 @@ void statList(vector<string> const &input, vector<string>const &variable)
 				{
 					if (str[j] != ';')
 					{
-						cout << "; is missing" << endl;
+						cout << "line " << ch + 1 << ": ';' is missing" << endl;
 						if (str[j] != ')')
 						{
-							cout << ") is missing" << endl;
+							cout << "line " << ch + 1 << ": ')' is missing" << endl;
 						}
 					}
 					else if (str[j - 1] != ')')
 					{
-						cout << ") is missing" << endl;
+						cout << "line " << ch + 1 << ": ')' is missing" << endl;
 					}
 				}
 			}
 		}
 		//Checking if it is an assign statement
-		else
+		else if (str[0] != 'P' && str[1] != 'R'  && str[2] != 'I' && str[3] != 'N' && str[4] != 'T')
 		{
 
 			for (int k = 0; k < str.length(); k++)
@@ -242,14 +270,16 @@ void statList(vector<string> const &input, vector<string>const &variable)
 							else if (compare == variable.size() - 1)
 							{
 								createVar = "";
-								cout << "IDENTIFIER NOT DEFINED" << endl;
+								cout << "line " << ch + 1 << ": IDENTIFIER NOT DEFINED" << endl;
+								k++;
+								break;
 
 							}
 						}
 						//check for assignment (=)
 						if (str[k] != '=')
 						{
-							cout << "= is missing" << endl;
+							cout << "line " << ch + 1 << ": '=' is missing" << endl;
 							break;
 						}
 						else
@@ -309,7 +339,7 @@ void statList(vector<string> const &input, vector<string>const &variable)
 												//checks after an identifier that has not been defined
 												createVar = "";
 												l++;
-												cout << "IDENTIFIER NOT DEFINED" << endl;
+												cout << "line " << ch + 1 << ": IDENTIFIER NOT DEFINED" << endl;
 												l++;
 												if (str[l] == ';')
 												{
@@ -330,13 +360,13 @@ void statList(vector<string> const &input, vector<string>const &variable)
 								}
 								else if (str[l] == ' ' && createVar != "" && str[l] != ';')
 								{
-									cout << "ERROR" << endl;
+									cout << "line " << ch + 1 << ": ERROR" << endl;
 								}
 								if (l == str.size() - 1)
 								{
 									if (str[l] != ';')
 									{
-										cout << "; is missing" << endl;
+										cout << "line " << ch + 1 << ": ';' is missing" << endl;
 									}
 								}
 								//
@@ -346,10 +376,16 @@ void statList(vector<string> const &input, vector<string>const &variable)
 				}
 				else
 				{
-					cout << "IDENTIFIER NOT DEFINED" << endl;
+					cout << "line " << ch + 1 << ": IDENTIFIER NOT DEFINED" << endl;
 				}
 			}
 		}
+		else
+			//if PRINT is mispelled or unknown identifier
+		{
+			cout << "line " << ch + 1 << ": ERROR" << endl;
+		}
+
 	}
 }
 
@@ -358,7 +394,7 @@ void checkEND(vector<string> const &input)
 	//Check if END. exists or is spelled wrong
 	string str = input.at(input.size() - 1);
 	if (str != "END.")
-		cout << "END. is expected" << endl;
+		cout << "line " << input.size() << ": END. is expected" << endl;
 }
 
 int main()
